@@ -5,3 +5,4 @@ filelock
 streamlit-autorefresh
 selenium
 openpyxl
+webdriver-manager
