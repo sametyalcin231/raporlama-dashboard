@@ -3,4 +3,5 @@ pandas
 python-dotenv
 filelock
 streamlit-autorefresh
+selenium
 openpyxl
