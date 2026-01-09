@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+
+# Environment
+.env
+
+# Outputs
+output/
+downloads/
+reports/
+
+# Temp
+*.tmp
+*.crdownload
+
+# OS
+.DS_Store
+Thumbs.db

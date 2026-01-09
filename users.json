@@ -1,0 +1,53 @@
+{
+    "usernames": {
+        "op": {
+            "name": "Operasyon",
+            "password": "$2b$12$MaAbG0lWPXOQlowp.qmdceTUWSkcN2NEuaGV1ThU8NRnO7xpcKpQ.",
+            "role": "user",
+            "permissions": {
+                "toplama": true,
+                "yerlestirme": false,
+                "backlog": false
+            },
+            "logged_in": false,
+            "failed_login_attempts": 0,
+            "roles": [
+                "toplama",
+                "yerlestirme",
+                "backlog",
+                "admin"
+            ]
+        },
+        "admin": {
+            "name": "samet",
+            "password": "$2b$12$/JzoOjMGfkI3RqkLwfR6KOKULPFcajggo7IPNV04n1tSykc1SPuDS",
+            "roles": [
+                "yerlestirme",
+                "toplama",
+                "backlog"
+            ],
+            "logged_in": false,
+            "failed_login_attempts": 0
+        },
+        "samet": {
+            "name": "samet",
+            "password": "$2b$12$cQj9BnxqYitAPrR1gJAtkOSvIcLhyq6Px5miWkQOvmco7GLaUD5Qy",
+            "roles": [
+                "admin"
+            ],
+            "logged_in": false,
+            "failed_login_attempts": 0
+        },
+        "ahmet": {
+            "name": "ahmet",
+            "password": "$2b$12$UrES2FI90tfZMEY8.Oy18eWrqXTiaOh.OWeI087/two0DzkTuleqS",
+            "roles": [
+                "toplama",
+                "yerlestirme",
+                "backlog"
+            ],
+            "logged_in": false,
+            "failed_login_attempts": 0
+        }
+    }
+}

@@ -1,0 +1,40 @@
+import os
+import pandas as pd
+from dotenv import load_dotenv
+
+# .env dosyasından kullanıcı adı ve şifreyi çek
+load_dotenv()
+USERNAME = os.getenv("USERNAME")
+PASSWORD = os.getenv("PASSWORD")
+
+def run_report(file_path: str):
+    """
+    Inbound backlog raporunu çalıştırır.
+    Excel dosyasını okur, 'Kabul Durumu' sütununu filtreler,
+    sadece 'İşlem Bekliyor' ve 'İrsaliye Kabulü Başladı' statülerini alır.
+    Yanına SKU Sayısı sütununu ekler.
+    """
+
+    # Excel oku
+    df = pd.read_excel(file_path)
+
+    # Filtre: sadece ilgili statüler
+    df = df[df["Kabul Durumu"].isin(["İşlem Bekliyor", "İrsaliye Kabulü Başladı"])]
+
+    # Pivot: tarih bazlı backlog
+    pivot = df.pivot_table(
+        index="Sipariş Tarihi",
+        columns="Kabul Durumu",
+        values="SKU Sayısı",
+        aggfunc="sum",
+        fill_value=0
+    ).reset_index()
+
+    # Toplamlar
+    totals = {
+        "bekliyor": int(df[df["Kabul Durumu"] == "İşlem Bekliyor"]["SKU Sayısı"].sum()),
+        "irsaliye": int(df[df["Kabul Durumu"] == "İrsaliye Kabulü Başladı"]["SKU Sayısı"].sum()),
+        "genel": int(df["SKU Sayısı"].sum())
+    }
+
+    return pivot, totals, df

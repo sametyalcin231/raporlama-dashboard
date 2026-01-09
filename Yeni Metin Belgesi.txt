@@ -1,0 +1,5 @@
+streamlit
+selenium
+pandas
+python-dotenv
+openpyxl
