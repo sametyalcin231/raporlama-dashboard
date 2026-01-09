@@ -11,6 +11,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 # ===============================
 # ENV
@@ -49,13 +52,21 @@ def aktif_vardiya():
 VARDIYA_ADI, AKTIF_SAATLER = aktif_vardiya()
 
 # ===============================
-# DRIVER
+# DRIVER (Cloud Uyumlu)
 # ===============================
 def get_driver():
-    opt = webdriver.ChromeOptions()
-    opt.add_argument("--headless=new")
-    opt.add_argument("--window-size=1920,1080")
-    return webdriver.Chrome(options=opt)
+    options = Options()
+    options.add_argument("--headless=new")        # GUI olmadan çalıştır
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1920,1080")
+
+    driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()),
+        options=options
+    )
+    return driver
 
 # ===============================
 # GRID OKUMA
@@ -177,3 +188,25 @@ def run_report():
 
     finally:
         driver.quit()
+
+# ===============================
+# Streamlit ile kullanım
+# ===============================
+if __name__ == "__main__":
+    import streamlit as st
+
+    st.set_page_config(page_title="Toplama Raporu", layout="wide")
+    st.title("Toplama Raporu")
+
+    st.info(f"Aktif Vardiya: {VARDIYA_ADI}")
+
+    with st.spinner("Rapor alınıyor..."):
+        df = run_report()
+
+    if df.empty:
+        st.warning("Rapor alınamadı veya veri yok.")
+    else:
+        st.dataframe(df)
+        csv_file = f"toplama_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        df.to_csv(csv_file, index=False)
+        st.download_button("CSV olarak indir", csv_file, file_name=csv_file)
